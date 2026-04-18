@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Projeto | Danilo Nunes</title>
+    <meta name="description"
+        content="Inicie seu projeto com Danilo Nunes. Preencha o briefing para começarmos.">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Iniciar Projeto | Danilo">
+    <meta property="og:description"
+        content="Inicie seu projeto com Danilo Nunes. Preencha o briefing para começarmos.">
+    <meta property="og:url" content="https://Danilonunes.web.app/briefing.html">
+    <meta property="og:site_name" content="Danilo Nunes — Portfólio">
+    <meta property="og:locale" content="pt_BR"> 
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Iniciar Projeto | Danilo Nunes">
+    <meta name="twitter:description"
+        content="Inicie seu projeto com Danilo Nunes.">
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f4f4f5;
+            cursor: none;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Cursor Customizado */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ff3366;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 51, 102, 0.5);
+            transition: width 0.15s, height 0.15s, border-color 0.15s;
+        }
+
+        body.hovering .cursor-dot {
+            width: 0px;
+            height: 0px;
+        }
+
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 51, 102, 0.1);
+            border-color: #ff3366;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Noise Textura */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.04;
+            background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Form Animations */
+        .step-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .step-container.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-container.hidden {
+            display: none !important;
+        }
+
+        input,
+        textarea,
+        select {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255, 51, 102, 0.3);
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: #ff3366;
+            width: 100%;
+            padding: 10px 0;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-bottom-color: #ff3366;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        textarea {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            line-height: 1.5;
+        }
+
+        /* Hide scrollbar for textarea */
+        textarea::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Progress Bar */
+        .progress-bar-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: #ff3366;
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px #ff3366;
+        }
+
+        .option-btn {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+            cursor: none;
+        }
+
+        .option-btn:hover,
+        .option-btn.selected {
+            border-color: #ff3366;
+            background: rgba(255, 51, 102, 0.1);
+            color: #ff3366;
+            transform: translateX(10px);
+        }
+
+        .option-btn.selected {
+            background: #ff3366;
+            color: white;
+        }
+
+        /* Navigation Buttons */
+        .nav-fixed {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            z-index: 50;
+            display: flex;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-fixed {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+
+    <!-- Third Party Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+
+
+</head>
+
+<body class="antialiased selection:bg-accent selection:text-white flex flex-col justify-center">
+
+    <div class="noise"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- Nav Simples -->
+    <nav class="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50">
+        <a href="index.html"
+            class="font-display font-bold text-lg md:text-xl tracking-tighter hover-target uppercase text-light/50 hover:text-white transition-colors flex items-center gap-2">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i> Voltar
+        </a>
+        <div class="font-sans text-[10px] md:text-xs tracking-[0.2em] uppercase text-light/30">
+            Briefing Project
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-4xl mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center min-h-screen py-20">
+
+        <form id="briefing-form" class="w-full">
+
+            <!-- STEP 1: NOME -->
+            <div class="step-container active" data-step="1">
+                <div class="flex items-center gap-4 mb-2">
+                    <span class="text-accent font-sans text-sm tracking-widest uppercase">01 <span
+                            class="text-light/20">/ 05</span></span>
+                    <span class="text-light/50 font-sans text-sm tracking-widest uppercase">Introdução</span>
+                </div>
+                <h2 class="font-display font-bold text-3xl md:text-5xl lg:text-6xl mb-8 md:mb-12 leading-tight">
+                    Olá! Qual é o seu nome?
+                </h2>
+                <input type="text" id="name" name="name" placeholder="Digite seu nome..." class="hover-target" required
+                    autocomplete="off">
+                <div class="mt-6 text-light/30 text-xs md:text-sm flex items-center gap-2 font-mono opacity-60">
+                    <span class="border border-light/20 rounded px-2 py-0.5">ENTER</span> para continuar
+                </div>
+            </div>
+
+            <!-- STEP 2: WHATSAPP -->
+            <div class="step-container" data-step="2">
+                <div class="flex items-center gap-4 mb-2">
+                    <span class="text-accent font-sans text-sm tracking-widest uppercase">02 <span
+                            class="text-light/20">/ 05</span></span>
+                    <span class="text-light/50 font-sans text-sm tracking-widest uppercase">Contato</span>
+                </div>
+                <h2 class="font-display font-bold text-3xl md:text-5xl lg:text-6xl mb-8 md:mb-12 leading-tight">
+                    Prazer, <span class="username-display text-accent"></span>.<br>Qual seu WhatsApp?
+                </h2>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" class="hover-target"
+                    required>
+            </div>
+
+            <!-- STEP 3: TIPO DE PROJETO -->
+            <div class="step-container" data-step="3">
+                <div class="flex items-center gap-4 mb-2">
+                    <span class="text-accent font-sans text-sm tracking-widest uppercase">03 <span
+                            class="text-light/20">/ 05</span></span>
+                    <span class="text-light/50 font-sans text-sm tracking-widest uppercase">O Projeto</span>
+                </div>
+                <h2 class="font-display font-bold text-3xl md:text-5xl lg:text-6xl mb-8 md:mb-12 leading-tight">
+                    O que vamos criar juntos?
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target group"
+                        onclick="selectOption(this, 'Redes sociais')">
+                        <span class="opacity-50 group-hover:opacity-100 mr-2">A.</span> Desenvolvimento Fron-End
+                    </button>
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target group"
+                        onclick="selectOption(this, 'Branding Animado')">
+                        <span class="opacity-50 group-hover:opacity-100 mr-2">B.</span> Estrutura da Página (HTML)
+                    </button>
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target group"
+                        onclick="selectOption(this, 'Edição Criativa')">
+                        <span class="opacity-50 group-hover:opacity-100 mr-2">C.</span> Estilização Visual (CSS)
+                    </button>
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target group"
+                        onclick="selectOption(this, 'Outro')">
+                        <span class="opacity-50 group-hover:opacity-100 mr-2">D.</span> Outro
+                    </button>
+                </div>
+                <input type="hidden" id="projectType" name="projectType">
+            </div>
+
+            <!-- STEP 4: ORÇAMENTO -->
+            <div class="step-container" data-step="4">
+                <div class="flex items-center gap-4 mb-2">
+                    <span class="text-accent font-sans text-sm tracking-widest uppercase">04 <span
+                            class="text-light/20">/ 05</span></span>
+                    <span class="text-light/50 font-sans text-sm tracking-widest uppercase">Investimento</span>
+                </div>
+                <h2 class="font-display font-bold text-3xl md:text-5xl lg:text-6xl mb-8 md:mb-12 leading-tight">
+                    Qual o budget estimado?
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target"
+                        onclick="selectOption(this, 'R$ 200 - 1.000')">
+                        R$ 200 - 1.000
+                    </button>
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target"
+                        onclick="selectOption(this, 'R$ 1.000 - 5.000')">
+                        R$ 1.000 - 5.000
+                    </button>
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target"
+                        onclick="selectOption(this, '+ R$ 5.000')">
+                        + R$ 5.000
+                    </button>
+                    <button type="button"
+                        class="option-btn p-6 md:p-8 rounded-xl text-left font-display text-xl md:text-2xl hover-target"
+                        onclick="selectOption(this, 'A definir')">
+                        Ainda não sei
+                    </button>
+                </div>
+                <input type="hidden" id="budget" name="budget">
+            </div>
+
+            <!-- STEP 5: DETALHES -->
+            <div class="step-container" data-step="5">
+                <div class="flex items-center gap-4 mb-2">
+                    <span class="text-accent font-sans text-sm tracking-widest uppercase">05 <span
+                            class="text-light/20">/ 05</span></span>
+                    <span class="text-light/50 font-sans text-sm tracking-widest uppercase">Detalhes</span>
+                </div>
+                <h2 class="font-display font-bold text-3xl md:text-5xl lg:text-6xl mb-8 md:mb-12 leading-tight">
+                    Conte mais sobre a ideia...
+                </h2>
+                <textarea id="message" name="message" rows="3"
+                    placeholder="Objetivo, referências, prazos... Pode digitar aqui."
+                    class="hover-target resize-none"></textarea>
+                <div class="mt-6">
+                    <button type="button" onclick="nextStep()"
+                        class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-accent border border-accent text-white hover:bg-white hover:text-dark hover:border-white transition-all duration-300 hover-target font-bold uppercase tracking-widest text-sm shadow-[0_0_20px_rgba(255,51,102,0.5)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+                        Enviar Briefing <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FINAL: SUCESSO -->
+            <div class="step-container" data-step="6">
+                <h2 class="font-display font-bold text-5xl md:text-7xl mb-6 text-accent">
+                    Prontinho! 🚀
+                </h2>
+                <p class="font-sans text-xl md:text-2xl text-light/80 max-w-2xl leading-relaxed mb-12">
+                    Obrigado <span class="username-display text-white font-bold"></span>.<br>
+                    Recebemos suas informações e, em breve, entraremos em contato pelo WhatsApp para iniciarmos a conversa!
+                </p>
+
+                <a href="index.html"
+                    class="inline-block border-b border-light/30 pb-1 text-light/50 hover:text-white hover:border-white transition-colors hover-target uppercase text-sm tracking-widest">
+                    Voltar para Home
+                </a>
+            </div>
+
+        </form>
+
+        <!-- Fixed Nav Buttons (Bottom Right) -->
+        <div class="nav-fixed" id="nav-buttons">
+            <button type="button" id="prevBtn"
+                class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-light/20 flex items-center justify-center hover:bg-light/10 hover-target transition-all opacity-0 pointer-events-none text-light/50 hover:text-white">
+                <i data-lucide="chevron-up" class="w-6 h-6"></i>
+            </button>
+            <button type="button" id="nextBtn"
+                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-accent border border-accent text-white flex items-center justify-center hover:scale-110 hover-target transition-all shadow-[0_0_20px_rgba(255,51,102,0.4)]">
+                <i data-lucide="chevron-down" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Scripts -->
+
+    <!-- FIREBASE INTEGRATION -->
+    <script type="module">
+        // Firebase Configuration (Using CDN)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyABdHkxHiVePkwytIi8CrfeTBEHWfhxwC4",
+            authDomain: "guidocardos.firebaseapp.com",
+            projectId: "guidocardos",
+            storageBucket: "guidocardos.firebasestorage.app",
+            messagingSenderId: "226652360555",
+            appId: "1:226652360555:web:d395c337f14b5f008d462e",
+            measurementId: "G-61SYJKWV3R"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Briefing Page Logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        if (cursorDot && cursorOutline) {
+            if (!isTouchDevice) {
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+
+                    cursorDot.style.left = `${posX}px`;
+                    cursorDot.style.top = `${posY}px`;
+
+                    cursorOutline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: "forwards" });
+                });
+
+                const hoverTargets = document.querySelectorAll('.hover-target, input, textarea, button, a');
+                hoverTargets.forEach(target => {
+                    target.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                    target.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+                });
+            } else {
+                cursorDot.style.display = 'none';
+                cursorOutline.style.display = 'none';
+                document.body.style.cursor = 'auto';
+            }
+        }
+
+        let currentStep = 1;
+        const totalSteps = 6;
+        const steps = document.querySelectorAll('.step-container');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressFill = document.getElementById('progress-fill');
+        const navButtons = document.getElementById('nav-buttons');
+        const nameInput = document.getElementById('name');
+        const whatsappInput = document.getElementById('whatsapp');
+        const nameDisplays = document.querySelectorAll('.username-display');
+
+        if (whatsappInput) {
+            whatsappInput.addEventListener('input', function (e) {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+                e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            });
+        }
+
+        function updateUI() {
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            if (progressFill) progressFill.style.width = `${progress}%`;
+
+            if (prevBtn) {
+                if (currentStep > 1 && currentStep < totalSteps) {
+                    prevBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    prevBtn.disabled = false;
+                } else {
+                    prevBtn.classList.add('opacity-0', 'pointer-events-none');
+                    prevBtn.disabled = true;
+                }
+            }
+
+            if (navButtons) {
+                if (currentStep >= 5) {
+                    navButtons.style.opacity = '0';
+                    navButtons.style.pointerEvents = 'none';
+                } else {
+                    navButtons.style.opacity = '1';
+                    navButtons.style.pointerEvents = 'all';
+                }
+            }
+
+            const currentContainer = document.querySelector(`.step-container[data-step="${currentStep}"]`);
+            if (currentContainer) {
+                const input = currentContainer.querySelector('input, textarea');
+                if (input && !isTouchDevice) setTimeout(() => input.focus(), 500);
+            }
+
+            if (currentStep > 1 && nameInput) {
+                const firstName = nameInput.value.split(' ')[0];
+                nameDisplays.forEach(el => el.innerText = firstName);
+            }
+        }
+
+        window.submitBriefing = async function () {
+            const name = document.getElementById('name').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const projectType = document.getElementById('projectType').value;
+            const budget = document.getElementById('budget').value;
+            const message = document.getElementById('message').value;
+
+            try {
+                await addDoc(collection(db, "briefings"), {
+                    name,
+                    whatsapp,
+                    projectType,
+                    budget,
+                    message,
+                    createdAt: serverTimestamp(),
+                    status: 'new'
+                });
+            } catch (e) {
+                console.error("Erro ao salvar: ", e);
+            }
+
+            const text = `Olá Danilo! Sou ${name}. Acabei de preencher o briefing sobre projeto de ${projectType}. Podemos conversar?`;
+            const encodedText = encodeURIComponent(text);
+            window.open(`https://wa.me/5547996093997?text=${encodedText}`, '_blank');
+        }
+
+        window.showStep = function (step) {
+            steps.forEach(s => {
+                if (parseInt(s.dataset.step) === step) {
+                    s.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        s.classList.add('active');
+                        s.style.opacity = 1;
+                        s.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    s.classList.remove('active');
+                    s.style.opacity = 0;
+                    s.style.transform = parseInt(s.dataset.step) < step ? 'translateY(-50px)' : 'translateY(50px)';
+                    setTimeout(() => {
+                        if (!s.classList.contains('active')) s.classList.add('hidden');
+                    }, 500);
+                }
+            });
+
+            currentStep = step;
+            updateUI();
+        }
+
+        window.nextStep = function () {
+            const currentContainer = document.querySelector(`.step-container[data-step="${currentStep}"]`);
+            if (!currentContainer) return;
+
+            const input = currentContainer.querySelector('input, textarea');
+
+            if (input && input.hasAttribute('required') && !input.value.trim()) {
+                input.style.borderBottomColor = '#ff3366';
+                currentContainer.animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 300 });
+                return;
+            }
+
+            if (input) input.style.borderBottomColor = '';
+
+            if (currentStep < totalSteps) {
+                if (currentStep === 5) {
+                    window.submitBriefing();
+                    window.showStep(6);
+                } else {
+                    window.showStep(currentStep + 1);
+                }
+            }
+        }
+
+        window.prevStep = function () {
+            if (currentStep > 1) {
+                window.showStep(currentStep - 1);
+            }
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', window.nextStep);
+        if (prevBtn) prevBtn.addEventListener('click', window.prevStep);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && currentStep < totalSteps) {
+                if (document.activeElement.tagName === 'TEXTAREA') return;
+                e.preventDefault();
+                window.nextStep();
+            }
+        });
+
+        window.selectOption = function (btn, value) {
+            const container = btn.closest('.step-container');
+            const hiddenInput = container.querySelector('input[type="hidden"]');
+            container.querySelectorAll('.option-btn').forEach(b => {
+                b.classList.remove('selected');
+                b.style.backgroundColor = 'rgba(255,255,255,0.02)';
+                b.style.color = '#ff3366';
+            });
+            btn.classList.add('selected');
+            if (hiddenInput) hiddenInput.value = value;
+            setTimeout(window.nextStep, 400);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstStep = document.querySelector('.step-container[data-step="1"]');
+            if (firstStep) {
+                firstStep.style.display = 'block';
+                firstStep.style.opacity = '1';
+                firstStep.style.transform = 'translateY(0)';
+                steps.forEach(s => {
+                    if (s.dataset.step != 1) s.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

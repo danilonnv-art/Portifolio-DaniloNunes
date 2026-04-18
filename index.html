@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danilo Nunes | FrontEnd Developer Portfólio</title>
+
+    <!-- SEO: Meta Tags Essenciais -->
+    <meta name="description"
+        content="Portfólio de Danilo Nunes — Desenvolvedor Front-End Júnior | React, JavaScript, HTML & CSS | Foco em UX, Performance e Interfaces Responsivas. Disponível para freelance e projetos criativos.">
+    
+    
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="canonical" href="https://danilonunes.com">
+
+    <!-- SEO: Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:type" content="website">
+    
+   
+    <style>
+        /* Base e Reset para o Cursor Customizado */
+        body {
+            background-color: #0a0a0a;
+            color: #f4f4f5;
+            cursor: none;
+            /* Esconde o cursor padrão */
+            overflow-x: hidden;
+        }
+
+        /* Oculta scrollbar mas mantém funcionalidade */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff3366;
+        }
+
+        /* Cursor Customizado */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ff3366;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 51, 102, 0.5);
+            transition: width 0.15s, height 0.15s, border-color 0.15s;
+        }
+
+        /* Estado Hover do Cursor */
+        body.hovering .cursor-dot {
+            width: 0px;
+            height: 0px;
+        }
+
+        body.hovering .cursor-outline {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 51, 102, 0.1);
+            border-color: #ff3366;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Efeito Magnético */
+        .magnetic-wrap {
+            display: inline-block;
+            padding: 1rem;
+        }
+
+        .magnetic-inner {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: transform;
+        }
+
+        /* Noise Textura Cinematic */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.04;
+            background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Animações de Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .carousel-track {
+            display: flex;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .video-item {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease, border-color 0.3s ease;
+            will-change: transform;
+            -webkit-touch-callout: none;
+            user-select: none;
+            filter: grayscale(1) brightness(0.7);
+            border-color: rgba(255, 255, 255, 0.05);
+            z-index: 1;
+        }
+
+        .video-item.active,
+        .video-item:hover {
+            filter: grayscale(0) brightness(1);
+            transform: scale(1.1);
+            z-index: 50;
+            border-color: #ff3366;
+        }
+
+        .video-item.active .tap-hint {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .project-card .project-img {
+            transition: transform 0.7s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+
+        .project-card .project-overlay {
+            background: transparent;
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-title-wrap {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease 0.1s;
+        }
+
+        .project-card:hover .project-title-wrap {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(244, 244, 245, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .text-outline:hover {
+            color: #f4f4f5;
+            -webkit-text-stroke: 1px transparent;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor-dot,
+            .cursor-outline {
+                display: none;
+            }
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #0a0a0a;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-menu-link {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f4f4f5;
+            margin: 1rem 0;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .mobile-menu-overlay.active .mobile-menu-link {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu-overlay.active .mobile-menu-link:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .mobile-menu-overlay.active .mobile-menu-link:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .mobile-menu-overlay.active .mobile-menu-link:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            z-index: 50;
+            cursor: pointer;
+            display: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #f4f4f5;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span:first-child {
+            top: 0;
+        }
+
+        .hamburger span:nth-child(2) {
+            top: 9px;
+        }
+
+        .hamburger span:last-child {
+            bottom: 0;
+        }
+
+        .hamburger.active span:first-child {
+            top: 9px;
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:last-child {
+            bottom: 9px;
+            transform: rotate(-45deg);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            nav .desktop-menu {
+                display: none;
+            }
+        }
+
+        @keyframes scrolldown {
+            0% {
+                transform: scaleY(0);
+                transform-origin: top;
+            }
+
+            50% {
+                transform: scaleY(1);
+                transform-origin: top;
+            }
+
+            50.1% {
+                transform: scaleY(1);
+                transform-origin: bottom;
+            }
+
+            100% {
+                transform: scaleY(0);
+                transform-origin: bottom;
+            }
+        }
+    </style>
+
+    <!-- Third Party Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+
+
+    <!-- SEO: Schema.org — Dados Estruturados -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Danilo Nunes",
+      "jobTitle": "Motion Designer & Diretor de Arte",
+      "url": "https://DaniloNunes.com",
+      "description": "Desenvolvedor Front-End Júnior | React, JavaScript, HTML & CSS | Foco em UX, Performance e Interfaces Responsivas.",
+      "knowsAbout": [
+        "Desenvolvedor", "Front-End", "React",
+        "Animação 2D", "Composição Visual", "Branding Animado",
+        "JavaScript", "HTML", "CSS",
+        "UX", "Performance", "Interfaces Responsivas"
+      ],
+      "sameAs": []
+    }
+    </script>
+</head>
+
+<body class="antialiased selection:bg-accent selection:text-white">
+
+    <!-- Efeito Cinematic de Ruído -->
+    <div class="noise"></div>
+
+    <!-- Cursor Elements -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- 
+    ======================================================================
+       2. NAVEGAÇÃO / MENU SUPERIOR
+       O QUE EDITAR AQUI: O seu logo/nome (Guido.motion) e os links do menu.
+    ======================================================================
+    -->
+    <nav
+        class="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 bg-black/90 backdrop-blur-sm border-b border-white/5 transition-all duration-300">
+        <!-- SEU LOGO / NOME -->
+        <a href="#" class="font-display font-bold text-xl tracking-tighter hover-target uppercase">Danilo Nunes</a>
+
+        <!-- LINKS DO MENU -->
+        <!-- LINKS DO MENU (DESKTOP) -->
+        <div class="desktop-menu flex gap-6 font-sans text-sm font-medium tracking-wide">
+            <div class="magnetic-wrap"><a href="#trabalhos"
+                    class="magnetic-inner hover-target text-light/70 hover:text-accent transition-colors">TRABALHOS</a>
+            </div>
+            <div class="magnetic-wrap"><a href="#sobre"
+                    class="magnetic-inner hover-target text-light/70 hover:text-accent transition-colors">SOBRE</a>
+            </div>
+            <div class="magnetic-wrap"><a href="#contato"
+                    class="magnetic-inner hover-target text-light/70 hover:text-accent transition-colors">CONTATO</a>
+            </div>
+        </div>
+
+        <!-- HAMBURGER BUTTON (MOBILE) -->
+        <div class="hamburger hover-target" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- MOBILE MENU OVERLAY -->
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <a href="#trabalhos" class="mobile-menu-link hover-target">TRABALHOS</a>
+            <a href="#sobre" class="mobile-menu-link hover-target">SOBRE</a>
+            <a href="#contato" class="mobile-menu-link hover-target">CONTATO</a>
+        </div>
+    </nav>
+
+    <!-- 
+    ======================================================================
+       3. CABEÇALHO / HERO SECTION (PRIMEIRA TELA)
+       O QUE EDITAR AQUI: Imagem/Vídeo de fundo, Título principal, 
+       Subtítulo, Texto descritivo e Link do seu Showreel.
+    ======================================================================
+    -->
+    <!-- WRAPPER PRINCIPAL PARA EVITAR OVERFLOW HORIZONTAL (CRÍTICO MOBILE) -->
+    <main class="w-full overflow-x-hidden relative">
+
+        <header
+            class="min-h-screen flex flex-col justify-center items-start px-6 md:px-20 pt-48 pb-20 relative overflow-hidden">
+
+            <!-- BACKGROUND: Troque o 'src' da imagem abaixo pela URL do seu vídeo ou imagem de fundo -->
+            <div class="absolute inset-0 z-[-1] opacity-20">
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop"
+                    alt="Desenvolvedor Front-End Júnior | React, JavaScript, HTML & CSS | Background do portfólio"
+                    class="w-full h-full object-cover grayscale blur-sm scale-110">
+            </div>
+
+            <div class="z-10 max-w-7xl reveal text-left">
+                <!-- SUBTÍTULO SUPERIOR -->
+                <p class="font-sans text-accent tracking-[0.2em] text-sm md:text-base mb-6 font-medium uppercase">
+                    FrontEnd - Developer
+                </p>
+
+                <!-- TÍTULO GIGANTE -->
+                <h1
+                    class="font-display font-bold text-[8vw] md:text-[8vw] lg:text-[6vw] leading-none uppercase tracking-tighter mix-blend-difference break-words">
+                    Dando <span class="text-accent">Vida</span> &nbsp;a
+                    <br>
+                    todos os seus <span class="text-outline hover-target inline-block">Projetos.</span>
+                </h1>
+
+                <!-- TEXTO DESCRITIVO PEQUENO -->
+                <p class="font-sans text-light/100 mt-8 max-w-md text-lg md:text-xl font-light leading-relaxed mx-0">
+                    Sou Desenvolvedor <strong>Front-End</strong> em transição, combinando minha <strong>experiência em gestão</strong> com um forte domínio 
+                    em <strong>HTML, CSS, JavaScript e React</strong> para criar interfaces intuitivas e eficientes.
+                </p>
+
+                <!-- BOTÃO E INFO DO SHOWREEL -->
+                <div class="mt-12 flex flex-col md:flex-row items-start md:items-center gap-8">
+                    <div class="flex items-center gap-6">
+                        <div class="magnetic-wrap p-0">
+                            <a href="#trabalhos"
+                                class="magnetic-inner hover-target inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border border-light/20 hover:border-accent hover:bg-accent hover:text-white transition-all duration-300 group">
+                                <span
+                                    class="font-sans text-xs md:text-sm font-medium tracking-wider group-hover:scale-110 transition-transform text-center">VER<br>REEL</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CTA SECUNDÁRIO -->
+                    <div class="magnetic-wrap p-0 hidden md:block">
+                        <a href="briefing.html"
+                            class="magnetic-inner hover-target inline-flex items-center justify-center px-8 py-3 rounded-full border border-light/20 text-light/80 hover:bg-white hover:text-dark hover:border-white transition-all duration-300 font-sans text-sm tracking-widest uppercase">
+                            Vamos Conversar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </header>
+
+        <!-- 
+    ======================================================================
+       4. LETREIRO ANIMADO (MARQUEE)
+       O QUE EDITAR AQUI: As palavras que ficam passando infinitamente.
+       NOTA: Edite nas DUAS divs para manter o loop perfeito.
+    ======================================================================
+    -->
+        <div
+            class="relative flex overflow-x-hidden bg-accent text-dark py-4 border-y border-white/10 rotate-[-2deg] scale-100 z-20 hover-target">
+            <!-- PRIMEIRA FAIXA -->
+            <div class="animate-marquee whitespace-nowrap flex items-center">
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">FrontEnd</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">HTML</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">CSS</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">Java Script</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">React</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+            </div>
+            <!-- SEGUNDA FAIXA (Duplicata para fluxo contínuo) -->
+            <div class="absolute top-0 animate-marquee2 whitespace-nowrap flex items-center py-4">
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">FrontEnd</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">HTML</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">CSS</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">Java Script</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+                <span class="font-display font-bold text-2xl md:text-4xl uppercase mx-4">React</span>
+                <span class="mx-4 text-xl md:text-2xl">•</span>
+            </div>
+        </div>
+
+        <!-- 
+    ======================================================================
+       5. PROJETOS / PORTFÓLIO
+       O QUE EDITAR AQUI: Título da seção, Imagens de cada projeto,
+       Categoria/Tag e Título do projeto. 
+       Insira o link do projeto no 'href' de cada tag <a>.
+    ======================================================================
+    -->
+        <section id="trabalhos" class="py-24 md:py-32 overflow-hidden w-full">
+            <!-- CABEÇALHO DA SEÇÃO -->
+            <div
+                class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 reveal px-6 md:px-20 lg:px-40 max-w-[1700px] mx-auto text-left">
+                <h2
+                    class="font-display font-bold text-[8vw] md:text-[5vw] lg:text-[5vw] leading-none uppercase tracking-tighter mb-4 lg:mb-0">
+                    Últimos<br><span class="text-outline">projetos</span>
+                </h2>
+                <p
+                    class="font-sans text-light/50 w-full md:max-w-lg lg:w-auto lg:max-w-sm text-left lg:text-right font-light text-lg mt-4 lg:mt-0">
+                    Uma Galeria de <Strong>Projetos</Strong> e <strong>Desafios</strong> em
+                    formato vertical. Passe o mouse ou toque para focar e ativar o som.
+                </p>
+            </div>
+
+            <!-- CARROSSEL INFINITO -->
+            <div class="relative w-full py-10">
+                <!-- GRADIENTES LATERAIS PARA SUAVIZAR AS BORDAS DO CARROSSEL -->
+                <div
+                    class="absolute top-0 left-0 w-16 md:w-40 h-full bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none">
+                </div>
+                <div
+                    class="absolute top-0 right-0 w-16 md:w-40 h-full bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none">
+                </div>
+
+                <!-- TRILHA DO CARROSSEL -->
+                <div class="carousel-track" id="carousel-track">
+
+                    <!-- PROJETO 1 -->
+                    <div class="px-3 md:px-10 flex-shrink-0">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <!-- Substitua o src do vídeo pelo seu vídeo vertical (.mp4) -->
+                            <video src="assets/optimized/24.02.mp4" preload="metadata"
+                                class="w-full h-full object-cover" loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-dark via-dark/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">TikTok
+                                        / Reels</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Cyber Neon</h3>
+                                </div>
+                            </div>
+                            <!-- Dica Visual de Toque (Mobile) -->
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Aperte
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 2 (Com margem para dar um ar orgânico e não ficar uma linha reta) -->
+                    <div class="px-3 md:px-10 flex-shrink-0 mt-4 md:mt-16">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/29.mp4" preload="metadata" class="w-full h-full object-cover"
+                                loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Campanha
+                                        Social</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Nike - Urban</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Aperte
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 3 -->
+                    <div class="px-3 md:px-10 flex-shrink-0 -mt-2 md:-mt-8">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/4.mp4" preload="metadata" class="w-full h-full object-cover"
+                                loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Stories</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Festival Drop</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Toque
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 4 -->
+                    <div class="px-3 md:px-10 flex-shrink-0 mt-6 md:mt-24">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/5.mp4" preload="metadata" class="w-full h-full object-cover"
+                                loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Motion</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Abstract Loop</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Toque
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 5 -->
+                    <div class="px-3 md:px-10 flex-shrink-0 mt-2 md:mt-8">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/24.02.mp4" preload="metadata"
+                                class="w-full h-full object-cover" loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Lifestyle</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Golden Hour</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Toque
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 6 -->
+                    <div class="px-3 md:px-10 flex-shrink-0 -mt-3 md:-mt-12">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/29.mp4" preload="metadata" class="w-full h-full object-cover"
+                                loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Branding</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">City Pulse</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Toque
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 7 -->
+                    <div class="px-3 md:px-10 flex-shrink-0 mt-8 md:mt-20">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/4.mp4" preload="metadata" class="w-full h-full object-cover"
+                                loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Documental</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Nature Raw</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Toque
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROJETO 8 -->
+                    <div class="px-3 md:px-10 flex-shrink-0 -mt-1 md:-mt-4">
+                        <div
+                            class="video-item relative w-[70vw] md:w-[45vw] lg:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden group hover-target bg-zinc-900 border border-white/5 shadow-2xl">
+                            <video src="assets/optimized/5.mp4" preload="metadata" class="w-full h-full object-cover"
+                                loop muted playsinline></video>
+                            <div
+                                class="project-overlay absolute inset-0 flex flex-col justify-end p-8 transition-opacity duration-300">
+                                <div
+                                    class="project-title-wrap translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span
+                                        class="text-accent font-sans font-medium text-xs tracking-widest mb-2 block uppercase">Evento</span>
+                                    <h3 class="font-display font-bold text-2xl text-white">Night Vibes</h3>
+                                </div>
+                            </div>
+                            <div
+                                class="tap-hint absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 md:hidden z-20">
+                                <span
+                                    class="font-sans text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/5">Toque
+                                    para reproduzir</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- End carousel-track -->
+                <!-- BOTÃO VER TODOS (CENTRALIZADO) -->
+                <div class="flex justify-center mt-20 reveal">
+                    <div class="magnetic-wrap">
+                        <a href="briefing.html"
+                            class="magnetic-inner hover-target px-10 py-4 rounded-full border border-white/10 bg-white/5 text-light hover:bg-accent hover:border-accent hover:text-white transition-all duration-300 flex items-center gap-3 backdrop-blur-sm group">
+                            <span class="font-sans text-sm font-bold tracking-widest uppercase">Iniciar Projeto</span>
+                            <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+            </div> <!-- End relative container -->
+        </section>
+
+        <!-- 
+    ======================================================================
+       5.1 PROCESSO DE TRABALHO (WORKFLOW)
+       ETAPAS PARA A PRESTAÇÃO DE SERVIÇO
+    ======================================================================
+    -->
+        <section id="processo" class="py-24 md:py-32 px-6 md:px-20 relative overflow-hidden bg-zinc-900/10">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="mb-16 md:mb-24 reveal text-left">
+                    <p class="font-sans text-accent font-medium tracking-[0.2em] mb-4 uppercase text-xs">Metodologia</p>
+                    <h2
+                        class="font-display font-bold text-[8vw] md:text-[5vw] lg:text-[4vw] leading-none uppercase tracking-tighter">
+                        Como <span class="text-outline">Funciona</span>
+                    </h2>
+                </div>
+
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 md:gap-6 lg:gap-4 relative">
+                    <!-- Linha Conectora (Desktop) -->
+                    <div class="hidden md:block absolute top-[15%] left-0 w-full h-px bg-white/5 -z-10"></div>
+
+                    <!-- ETAPA 1 -->
+                    <div class="flex flex-col items-start text-left p-6 bg-white/5 border border-white/5 rounded-2xl reveal group hover:bg-white/[0.08] transition-all duration-500"
+                        style="transition-delay: 100ms;">
+                        <div
+                            class="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-500">
+                            <i data-lucide="message-square"
+                                class="w-8 h-8 text-accent group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-3 text-white uppercase tracking-tight">01. Estrutura (HTML)
+                        </h3>
+                        <p class="font-sans text-xs text-light/50 leading-relaxed">Comece definindo a estrutura e o conteúdo da página usando HTML5 para criar a semântica e os blocos de construção da interface.</p>
+                    </div>
+
+                    <!-- ETAPA 2 -->
+                    <div class="flex flex-col items-start text-left p-6 bg-white/5 border border-white/5 rounded-2xl reveal group hover:bg-white/[0.08] transition-all duration-500"
+                        style="transition-delay: 200ms;">
+                        <div
+                            class="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-500">
+                            <i data-lucide="git-branch"
+                                class="w-8 h-8 text-accent group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-3 text-white uppercase tracking-tight">02.
+                            Estilização e Layout (CSS)</h3>
+                        <p class="font-sans text-xs text-light/50 leading-relaxed">Aplique CSS3 para definir cores, fontes, espaçamentos e o layout responsivo, utilizando técnicas como Flexbox ou Grid para organizar os elementos na tela.</p>
+                    </div>
+
+                    <!-- ETAPA 3 -->
+                    <div class="flex flex-col items-start text-left p-6 bg-white/5 border border-white/5 rounded-2xl reveal group hover:bg-white/[0.08] transition-all duration-500"
+                        style="transition-delay: 300ms;">
+                        <div
+                            class="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-500">
+                            <i data-lucide="layers"
+                                class="w-8 h-8 text-accent group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-3 text-white uppercase tracking-tight">03. Interatividade (JavaScript)
+                        </h3>
+                        <p class="font-sans text-xs text-light/50 leading-relaxed">Adicione comportamento e dinamicidade com JavaScript, manipulando elementos na página para criar funcionalidades como menus, modais e validação de formulários.</p>
+                    </div>
+
+                    <!-- ETAPA 4 -->
+                    <div class="flex flex-col items-start text-left p-6 bg-white/5 border border-white/5 rounded-2xl reveal group hover:bg-white/[0.08] transition-all duration-500"
+                        style="transition-delay: 400ms;">
+                        <div
+                            class="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-500">
+                            <i data-lucide="music"
+                                class="w-8 h-8 text-accent group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-3 text-white uppercase tracking-tight">04. Consumo de Dados
+                        </h3>
+                        <p class="font-sans text-xs text-light/50 leading-relaxed">Conecte o frontend a um backend consumindo APIs (usando fetch ou axios) e, se necessário, adote frameworks modernos como React, Vue ou Angular para gerenciar estados complexos.</p>
+                    </div>
+
+                    <!-- ETAPA 5 -->
+                    <div class="flex flex-col items-start text-left p-6 bg-white/5 border border-white/5 rounded-2xl reveal group hover:bg-white/[0.08] transition-all duration-500"
+                        style="transition-delay: 500ms;">
+                        <div
+                            class="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-500">
+                            <i data-lucide="check-circle"
+                                class="w-8 h-8 text-accent group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-3 text-white uppercase tracking-tight">05. Otimização e Deploy
+                        </h3>
+                        <p class="font-sans text-xs text-light/50 leading-relaxed">Finalize garantindo a acessibilidade, performance e responsividade (mobile-first), e hospede o site em plataformas como Vercel, Netlify ou GitHub Pages.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+    ======================================================================
+       6. SOBRE MIM & HABILIDADES (SKILLS)
+       O QUE EDITAR AQUI: Título, sua biografia/texto sobre você,
+       e a lista de softwares/ferramentas que você utiliza.
+    ======================================================================
+    -->
+        <section id="sobre"
+            class="py-24 md:py-32 px-6 md:px-20 bg-zinc-900/30 border-t border-white/5 relative w-full overflow-hidden">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 md:gap-24 w-full">
+
+                <div class="lg:w-1/2 reveal w-full text-left">
+                    <!-- TÍTULO SOBRE -->
+                    <h2
+                        class="font-display font-bold text-[8vw] md:text-[5vw] lg:text-[4vw] leading-none uppercase tracking-tighter mb-8 text-left">
+                        Visão Criativa & <span class="text-accent">Técnica.</span>
+                    </h2>
+                    <!-- TEXTO SOBRE -->
+                    <div class="font-sans text-light/70 space-y-6 text-lg font-light leading-relaxed">
+                        <p>
+                            Sou Desenvolvedor Front-End em transição, combinando minha experiência em gestão com um forte domínio em HTML, CSS, JavaScript e React para criar interfaces intuitivas e eficientes.
+                            Em projetos recentes, aumentei a visibilidade online de empresas por meio de websites responsivos e otimizados, melhorando a experiência do usuário e contribuindo para o crescimento do negócio.
+                        </p>
+                        <p>
+                            Minha vivência em gestão me traz uma visão estratégica e colaborativa, facilitando o trabalho em equipe e o alinhamento com objetivos de negócio.
+                        </p>
+
+                    </div>
+
+                    <!-- LISTA DE SOFTWARES -->
+                    <div class="mt-12">
+                        <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-white mb-6">Arsenal de
+                            Software</h3>
+                        <div class="flex flex-wrap gap-3 md:gap-4">
+                            <span
+                                class="px-5 py-2 rounded-full border border-light/10 text-sm font-sans text-light/80 hover:border-accent hover:text-accent transition-colors hover-target cursor-default">
+                                 Tailwind CSS</span>
+                            <span
+                                class="px-5 py-2 rounded-full border border-light/10 text-sm font-sans text-light/80 hover:border-accent hover:text-accent transition-colors hover-target cursor-default">
+                                TypeScript</span>
+                            <span
+                                class="px-5 py-2 rounded-full border border-light/10 text-sm font-sans text-light/80 hover:border-accent hover:text-accent transition-colors hover-target cursor-default">
+                                VisualStudio Code
+                            </span>
+                            <span
+                                class="px-5 py-2 rounded-full border border-light/10 text-sm font-sans text-light/80 hover:border-accent hover:text-accent transition-colors hover-target cursor-default">Inteligencia
+                                Artificial
+                            </span>
+                            <span
+                                class="px-5 py-2 rounded-full border border-light/10 text-sm font-sans text-light/80 hover:border-accent hover:text-accent transition-colors hover-target cursor-default">
+                                React</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ANIMAÇÃO DECORATIVA DO LADO DIREITO -->
+                <div class="lg:w-1/2 reveal flex justify-center items-center">
+                    <!-- Elemento Decorativo Abstrato simulando interface -->
+                    <div
+                        class="relative w-full max-w-sm lg:max-w-full mx-auto aspect-square border border-light/10 rounded-full flex items-center justify-center p-8 hover-target animate-[spin_60s_linear_infinite]">
+                        <div class="absolute inset-0 border border-accent/30 rounded-full scale-75 border-dashed"></div>
+                        <div class="absolute inset-0 border border-light/20 rounded-full scale-50"></div>
+                        <div class="w-4 h-4 bg-accent rounded-full animate-ping"></div>
+                        <!-- Playhead lines -->
+                        <div class="absolute top-0 left-1/2 w-px h-8 bg-accent -translate-x-1/2"></div>
+                        <div class="absolute bottom-0 left-1/2 w-px h-8 bg-accent -translate-x-1/2"></div>
+                        <div class="absolute left-0 top-1/2 w-8 h-px bg-accent -translate-y-1/2"></div>
+                        <div class="absolute right-0 top-1/2 w-8 h-px bg-accent -translate-y-1/2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 
+    ======================================================================
+       7. CONTATO & REDES SOCIAIS
+       O QUE EDITAR AQUI: Seu e-mail de contato, chamada para ação (CTA)
+       e links para suas redes sociais.
+    ======================================================================
+    -->
+        <section id="contato" class="py-24 md:py-20 px-6 md:px-10 text-center relative">
+            <div class="max-w-7xl mx-auto reveal relative z-10">
+                <!-- PEQUENO TÍTULO DE CHAMADA -->
+                <p class="font-sans text-accent font-medium tracking-[0.2em] mb-6">QUAL SEU PRÓXIMO PROJETO?</p>
+
+                <div class="magnetic-wrap">
+                    <!-- E-MAIL (Coloque seu email no href: mailto:seuemail@exemplo.com) -->
+                    <a href="briefing.html" class="magnetic-inner hover-target block group">
+                        <h2
+                            class="font-display font-bold text-[10vw] md:text-[6vw] lg:text-[5vw] leading-none uppercase tracking-tighter group-hover:text-accent transition-colors duration-300 text-center">
+                            Vamos <span
+                                class="text-outline group-hover:text-white group-hover:-webkit-text-stroke-transparent transition-all">Criar</span>
+                            JUNTOS?
+                        </h2>
+                    </a>
+                </div>
+
+                <!-- LINKS DE REDES SOCIAIS -->
+                <div
+                    class="mt-0 grid grid-cols-2 md:grid-cols-4 gap-4 text-light/60 font-sans text-sm tracking-wider uppercase">
+                    <!-- Para ativar os links, troque o '#' pelo link do seu perfil (ex: https://instagram.com/seuusuario) -->
+                    <a href="https://wa.me/5547996093997" target="_blank"
+                        class="hover:text-white transition-colors hover-target" aria-label="WhatsApp">WhatsApp</a>
+                    <a href="https://www.linkedin.com/in/danilo-nunes-9932353bb/" target="_blank"
+                        class="hover:text-white transition-colors hover-target" aria-label="Instagram">Instagram</a>
+                    <a href="https://github.com/danilonnv-art" target="_blank"
+                        class="hover:text-white transition-colors hover-target" aria-label="Behance">GitHub</a>
+                    <a href="https://www.linkedin.com/in/danilo-nunes-9932353bb/" target="_blank"
+                        class="hover:text-white transition-colors hover-target" aria-label="LinkedIn">LinkedIn</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+    ======================================================================
+       8. RODAPÉ (FOOTER)
+       O QUE EDITAR AQUI: Direitos autorais e ano.
+    ======================================================================
+    -->
+        <!-- 
+    ======================================================================
+       7.1 PERGUNTAS FREQUENTES (FAQ)
+    ======================================================================
+    -->
+        
+
+        <footer
+            class="p-6 md:px-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-light/40 font-sans">
+            <p>&copy; 2026 Danilo Nunes. Todos os direitos reservados.</p>
+        </footer>
+
+        <!-- 
+    ======================================================================
+       9. SCRIPTS DE INTERATIVIDADE E ANIMAÇÃO
+       O QUE EDITAR AQUI: Normalmente não precisa alterar nada, 
+       mas se quiser mudar a física do cursor ou a velocidade
+       da animação de scroll, é aqui.
+    ======================================================================
+    -->
+        <script>
+            // Tailwind Configuration
+            if (typeof tailwind !== 'undefined') {
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            fontFamily: {
+                                sans: ['Inter', 'sans-serif'],
+                                display: ['Syne', 'sans-serif'],
+                            },
+                            colors: {
+                                dark: '#0a0a0a',
+                                light: '#f4f4f5',
+                                accent: '#ff3366'
+                            },
+                            animation: {
+                                'marquee': 'marquee 25s linear infinite',
+                                'marquee2': 'marquee2 25s linear infinite',
+                            },
+                            keyframes: {
+                                marquee: {
+                                    '0%': { transform: 'translateX(0%)' },
+                                    '100%': { transform: 'translateX(-100%)' },
+                                },
+                                marquee2: {
+                                    '0%': { transform: 'translateX(100%)' },
+                                    '100%': { transform: 'translateX(0%)' },
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Inicializa Lucide Icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            // Mobile Menu Logic
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-menu-link');
+
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    hamburgerBtn.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+
+                    // Toggle body scroll
+                    if (mobileMenu.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Close menu when a link is clicked
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburgerBtn.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // 1. Cursor Customizado
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorOutline = document.getElementById('cursor-outline');
+
+            if (cursorDot && cursorOutline) {
+                // Posições alvo do mouse
+                let mouseX = 0;
+                let mouseY = 0;
+
+                // Lock state
+                window.isCursorLocked = false;
+                window.cursorLockTarget = null;
+                let lockedOSMouseX = 0;
+                let lockedOSMouseY = 0;
+
+                // Posições atuais dos elementos (para interpolação/suavização)
+                let dotX = 0;
+                let dotY = 0;
+                let outlineX = 0;
+                let outlineY = 0;
+
+                // Atualiza a posição alvo no evento de mousemove
+                window.addEventListener('mousemove', (e) => {
+                    if (window.isCursorLocked) {
+                        const dx = e.clientX - lockedOSMouseX;
+                        const dy = e.clientY - lockedOSMouseY;
+                        // Quebra o lock se o mouse físico mover mais de 50px
+                        if (Math.hypot(dx, dy) > 50) {
+                            window.unlockCursor();
+                            mouseX = e.clientX;
+                            mouseY = e.clientY;
+                        }
+                    } else {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                    }
+                });
+
+                window.lockCursorTo = (element) => {
+                    window.isCursorLocked = true;
+                    window.cursorLockTarget = element;
+                    lockedOSMouseX = mouseX;
+                    lockedOSMouseY = mouseY;
+                };
+
+                window.unlockCursor = () => {
+                    window.isCursorLocked = false;
+                    window.cursorLockTarget = null;
+                };
+
+                // Loop de animação para mover o cursor com suavidade
+                function animateCursor() {
+                    let easeDot = 0.5;
+                    let easeOutline = 0.15;
+
+                    let targetX = mouseX;
+                    let targetY = mouseY;
+
+                    if (window.isCursorLocked && window.cursorLockTarget) {
+                        const rect = window.cursorLockTarget.getBoundingClientRect();
+                        targetX = rect.left + rect.width / 2;
+                        targetY = rect.top + rect.height / 2;
+                    }
+
+                    // Calcula a nova posição
+                    dotX += (targetX - dotX) * easeDot;
+                    dotY += (targetY - dotY) * easeDot;
+
+                    outlineX += (targetX - outlineX) * easeOutline;
+                    outlineY += (targetY - outlineY) * easeOutline;
+
+                    // Aplica via Transform para performance
+                    cursorDot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
+                    cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
+
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+            }
+
+            // 2. Estado Hover do Cursor (Expansão ao passar por links)
+            const hoverTargets = document.querySelectorAll('.hover-target, a, button');
+
+            hoverTargets.forEach(target => {
+                target.addEventListener('mouseenter', () => {
+                    document.body.classList.add('hovering');
+                });
+                target.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('hovering');
+                });
+            });
+
+            // 3. Efeito Botões Magnéticos
+            const magnets = document.querySelectorAll('.magnetic-wrap');
+
+            magnets.forEach(wrap => {
+                const inner = wrap.querySelector('.magnetic-inner');
+                if (!inner) return;
+
+                wrap.addEventListener('mousemove', (e) => {
+                    const rect = wrap.getBoundingClientRect();
+                    // Calcula a posição do mouse relativa ao centro do elemento
+                    const x = e.clientX - (rect.left + rect.width / 2);
+                    const y = e.clientY - (rect.top + rect.height / 2);
+
+                    // Move o elemento interno em direção ao mouse (força controlada por multiplicador)
+                    inner.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+
+                wrap.addEventListener('mouseleave', () => {
+                    // Reseta a posição suavemente
+                    inner.style.transform = 'translate(0px, 0px)';
+                });
+            });
+
+            // 4. Animações de Reveal ao dar Scroll (Intersection Observer)
+            const revealElements = document.querySelectorAll('.reveal');
+
+            if (revealElements.length > 0) {
+                const revealOptions = {
+                    threshold: 0.15, // Aciona quando 15% do elemento estiver visível
+                    rootMargin: "0px 0px -50px 0px"
+                };
+
+                const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) {
+                            return;
+                        } else {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target); // Para animar apenas na primeira vez
+                        }
+                    });
+                }, revealOptions);
+
+                revealElements.forEach(el => {
+                    revealOnScroll.observe(el);
+                });
+            }
+
+            // 5. CARROSSEL INFINITO — SCROLL VIA JS (para manter posição após hover)
+            const track = document.getElementById('carousel-track');
+
+            if (track) {
+                const items = Array.from(track.children);
+
+                // Duplicar os itens para criar o loop infinito
+                items.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    track.appendChild(clone);
+                });
+
+                // Velocidade do scroll: pixels por segundo
+                const SCROLL_SPEED = 80;
+                let scrollX = 0;
+                let isPaused = false;
+                let centeringOffset = 0; // offset adicional para centralização suave
+                let centeringTarget = 0;
+                let lastTime = performance.now();
+
+                // Largura de metade do conteúdo (os itens originais) para loop
+                const halfWidth = track.scrollWidth / 2;
+
+                function animateCarousel(now) {
+                    const dt = (now - lastTime) / 1000; // delta em segundos
+                    lastTime = now;
+
+                    if (!isPaused) {
+                        scrollX += SCROLL_SPEED * dt;
+                        // Loop: quando passou metade, volta
+                        if (scrollX >= halfWidth) {
+                            scrollX -= halfWidth;
+                        }
+                    }
+
+                    // Interpolar o offset de centralização suavemente
+                    centeringOffset += (centeringTarget - centeringOffset) * 0.08;
+
+                    track.style.transform = 'translateX(' + (-(scrollX) + centeringOffset) + 'px)';
+
+                    requestAnimationFrame(animateCarousel);
+                }
+                requestAnimationFrame(animateCarousel);
+
+                // --- OTIMIZAÇÃO: Throttle Helper ---
+                function throttle(func, limit) {
+                    let inThrottle;
+                    return function () {
+                        const args = arguments;
+                        const context = this;
+                        if (!inThrottle) {
+                            func.apply(context, args);
+                            inThrottle = true;
+                            setTimeout(() => inThrottle = false, limit);
+                        }
+                    }
+                }
+
+                // --- Interação de Hover / Focus ---
+                const allVideoItems = document.querySelectorAll('.video-item');
+
+                // Observer para performance: Pausa vídeos fora da tela
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const vid = entry.target.querySelector('video');
+                        if (!vid) return;
+
+                        if (entry.isIntersecting) {
+                            // Se estiver visível, tenta dar play (sem som)
+                            if (vid.paused) {
+                                vid.play().catch(() => { });
+                            }
+                        } else {
+                            // Se saiu da tela, pausa para economizar recurso
+                            if (!vid.paused && vid.muted) { // Só pausa se estiver mudo (bg), se estiver ativo (com som) mantém? Não, se saiu da tela deve pausar.
+                                vid.pause();
+                            }
+                        }
+                    });
+                }, {
+                    root: null, // viewport
+                    threshold: 0.1 // 10% visível
+                });
+
+                let activeItem = null;
+                let activeDeactivateFn = null;
+                let focusTimeout = null;
+                let globalMouseMoveHandler = null;
+                let isInteractionDisabled = false; // Flag para travar a interação durante animação
+
+                allVideoItems.forEach(item => {
+                    // Registra no observer
+                    io.observe(item);
+
+                    const video = item.querySelector('video');
+                    let fadeAudioInterval;
+
+                    if (video) {
+                        // Hack para garantir que o primeiro frame apareça
+                        video.addEventListener('loadeddata', () => {
+                            if (video.paused) {
+                                video.currentTime = 0.1;
+                            }
+                        });
+
+                        // Debug de erro de vídeo
+                        video.addEventListener('error', (e) => {
+                            console.error("Erro ao carregar vídeo:", video.src, video.error);
+                            item.style.border = "0.5px solid red"; // Visual feedback
+                        });
+                    }
+
+                    const activateFocus = () => {
+                        // Se já for o item ativo, ignora
+                        if (activeItem === item) return;
+
+                        // IMPORTANTE: Se formos ativar um NOVO item, forçamos a desativação do anterior
+                        // mesmo que esteja "travado" pela animação de lock.
+                        if (activeItem && activeDeactivateFn) {
+                            activeDeactivateFn(true); // Passa true para ignorar o lock
+                        }
+
+                        // Se ainda assim tiver item ativo (caso algo falhe), aborta para evitar double-active
+                        if (activeItem) return;
+
+                        activeItem = item;
+                        isPaused = true;
+
+                        // Adiciona classe ativa
+                        item.classList.add('active');
+
+                        // Centralizar
+                        const rect = item.getBoundingClientRect();
+                        const itemCenter = rect.left + rect.width / 2;
+                        const screenCenter = window.innerWidth / 2;
+                        centeringTarget = screenCenter - itemCenter;
+
+                        // Áudio fade in
+                        if (video) {
+                            clearInterval(fadeAudioInterval);
+
+                            // Importante: Zerar volume antes de desmutar
+                            video.volume = 0;
+                            video.muted = false; // Tenta desmutar. Se falhar no play, o catch resolve.
+
+                            // Tenta dar play (promessa)
+                            var playPromise = video.play();
+
+                            if (playPromise !== undefined) {
+                                playPromise.then(_ => {
+                                    // Play começou com sucesso
+                                    // Agora faz o fade in do volume
+                                    fadeAudioInterval = setInterval(() => {
+                                        if (video.volume < 0.9) {
+                                            video.volume += 0.05;
+                                        } else {
+                                            video.volume = 1;
+                                            clearInterval(fadeAudioInterval);
+                                        }
+                                    }, 50);
+                                })
+                                    .catch(error => {
+                                        console.log("Autoplay blocked or failed:", error);
+                                        // Se falhar o áudio, tenta tocar mudo
+                                        video.muted = true;
+                                        video.play().catch(e => console.error("Force play failed:", e));
+                                    });
+                            }
+                        }
+
+                        // TRAVA INTERAÇÃO POR 600ms (duração da transição)
+                        isInteractionDisabled = true;
+                        if (window.lockCursorTo) window.lockCursorTo(item);
+
+                        setTimeout(() => {
+                            isInteractionDisabled = false;
+                        }, 600);
+
+                        // Listener global para sair do foco
+                        if (globalMouseMoveHandler) {
+                            window.removeEventListener('mousemove', globalMouseMoveHandler);
+                        }
+                        globalMouseMoveHandler = (e) => {
+                            if (activeItem) {
+                                if (window.isCursorLocked) return; // Aguarda a quebra do lock pelo movimento do mouse
+
+                                const ar = activeItem.getBoundingClientRect();
+                                const cx = ar.left + ar.width / 2;
+                                const cy = ar.top + ar.height / 2;
+                                // Aumenta a distância de saída para evitar cortes bruscos
+                                const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+                                // Só desativa se NÃO estiver travado
+                                if (!isInteractionDisabled && dist > 400) { // Distancia maior
+                                    deactivateFocus();
+                                }
+                            }
+                        };
+                        window.addEventListener('mousemove', globalMouseMoveHandler);
+                        activeDeactivateFn = deactivateFocus;
+                    };
+
+                    const deactivateFocus = (force = false) => {
+                        if (!force && isInteractionDisabled) return; // Respeita o lock, exceto se forçado
+                        if (activeItem !== item) return;
+
+                        if (window.unlockCursor) window.unlockCursor();
+
+                        activeItem = null;
+                        activeDeactivateFn = null;
+
+                        // ABSORVER o offset
+                        scrollX -= centeringOffset;
+                        centeringOffset = 0;
+                        centeringTarget = 0;
+
+                        // Normaliza
+                        while (scrollX < 0) scrollX += halfWidth;
+                        while (scrollX >= halfWidth) scrollX -= halfWidth;
+
+                        isPaused = false;
+
+                        item.classList.remove('active');
+
+                        // Áudio fade out
+                        if (video) {
+                            clearInterval(fadeAudioInterval);
+                            fadeAudioInterval = setInterval(() => {
+                                if (video.volume > 0.05) {
+                                    video.volume -= 0.05;
+                                } else {
+                                    video.volume = 0;
+                                    video.muted = true;
+                                    clearInterval(fadeAudioInterval);
+                                }
+                            }, 30);
+                        }
+
+                        if (globalMouseMoveHandler) {
+                            window.removeEventListener('mousemove', globalMouseMoveHandler);
+                            globalMouseMoveHandler = null;
+                        }
+                    };
+
+                    // Substitui 'mouseenter' por 'mousemove' com verificação de área (Hotspot, 80% do centro)
+                    item.addEventListener('mousemove', throttle((e) => {
+                        if (window.innerWidth < 768) return; // Ignora no mobile
+                        if (window.isCursorLocked) return; // Ignora foco se o cursor estiver travado numa carta
+                        if (isInteractionDisabled) return; // Previni bug de over-hover
+
+                        // Se não tiver timer rodando, começa
+                        if (!focusTimeout) {
+                            // Delay curto apenas para evitar disparos acidentais ao passar o mouse rápido
+                            focusTimeout = setTimeout(() => {
+                                focusTimeout = null;
+                                activateFocus();
+                            }, 50);
+                        }
+                    }, 50));
+
+                    item.addEventListener('mouseleave', () => {
+                        if (focusTimeout) {
+                            clearTimeout(focusTimeout);
+                            focusTimeout = null;
+                        }
+                    });
+
+                    // Mobile Touch / Click
+                    item.addEventListener('click', (e) => {
+                        // Mobile: Click toggles interaction
+                        if (window.innerWidth >= 768) return; // Desktop uses hover
+
+                        e.stopPropagation(); // Avoid global click handling
+
+                        // Ignore if dragging
+                        if (isDragging) return;
+
+                        if (activeItem === item) {
+                            deactivateFocus(true);
+                        } else {
+                            activateFocus();
+                        }
+                    });
+
+                    item.addEventListener('contextmenu', e => e.preventDefault());
+                });
+
+                // --- TOUCH DRAG LOGIC (Horizontal Scroll) ---
+                let isDragging = false;
+                let startX = 0;
+                let lastTouchX = 0;
+                let velocity = 0;
+                let lastTimeDrag = 0;
+
+                track.addEventListener('touchstart', (e) => {
+                    isDragging = false;
+                    isPaused = true;
+                    startX = e.touches[0].clientX;
+                    lastTouchX = startX;
+                    lastTimeDrag = performance.now();
+                    velocity = 0;
+                }, { passive: true });
+
+                track.addEventListener('touchmove', (e) => {
+                    const x = e.touches[0].clientX;
+                    const delta = lastTouchX - x;
+                    const now = performance.now();
+                    const dt = (now - lastTimeDrag) / 1000;
+
+                    if (Math.abs(x - startX) > 10) {
+                        isDragging = true;
+                        // Auto-deselect item if it's active when starting to drag
+                        if (activeItem && window.innerWidth < 768) {
+                            if (activeDeactivateFn) activeDeactivateFn(true);
+                        }
+                    }
+
+                    scrollX += delta * 2.0;
+                    if (dt > 0) velocity = delta / dt;
+
+                    lastTouchX = x;
+                    lastTimeDrag = now;
+                }, { passive: true });
+
+                track.addEventListener('touchend', () => {
+                    if (Math.abs(velocity) > 100 && isDragging) {
+                        const momentum = velocity * 0.1;
+                        scrollX += momentum;
+                    }
+
+                    if (!activeItem) {
+                        isPaused = false;
+                    }
+
+                    setTimeout(() => isDragging = false, 50);
+                });
+            }
+        </script>
+
+        <!-- Script para o FAQ (Isolado para garantir funcionamento) -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const faqTriggers = document.querySelectorAll('.faq-trigger');
+
+                faqTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', function () {
+                        const content = this.nextElementSibling;
+                        const icon = this.querySelector('[data-lucide]');
+
+                        // Fecha outros
+                        faqTriggers.forEach(other => {
+                            if (other !== this && other.classList.contains('active')) {
+                                other.classList.remove('active');
+                                other.nextElementSibling.style.maxHeight = null;
+                            }
+                        });
+
+                        // Abre/Fecha atual
+                        this.classList.toggle('active');
+
+                        if (this.classList.contains('active')) {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        } else {
+                            content.style.maxHeight = null;
+                        }
+                    });
+                });
+            });
+        </script>
+
+</body>
+
+</html>

@@ -1,0 +1,318 @@
+/* Base e Reset para o Cursor Customizado */
+body {
+    background-color: #0a0a0a;
+    color: #f4f4f5;
+    cursor: none;
+    /* Esconde o cursor padrão */
+    overflow-x: hidden;
+}
+
+/* Oculta scrollbar mas mantém funcionalidade */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff3366;
+}
+
+/* Cursor Customizado */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff3366;
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 51, 102, 0.5);
+    transition: width 0.15s, height 0.15s, border-color 0.15s;
+}
+
+/* Estado Hover do Cursor */
+body.hovering .cursor-dot {
+    width: 0px;
+    height: 0px;
+}
+
+body.hovering .cursor-outline {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 51, 102, 0.1);
+    border-color: #ff3366;
+    backdrop-filter: blur(2px);
+}
+
+/* Efeito Magnético */
+.magnetic-wrap {
+    display: inline-block;
+    padding: 1rem;
+}
+
+.magnetic-inner {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform;
+}
+
+/* Noise Textura Cinematic */
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Changed from 100vw to avoid scrollbar issue */
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.04;
+    background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+
+/* Animações de Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* CSS do Carrossel de Vídeos Verticais — movido para JS */
+.carousel-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+}
+
+.video-item {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease, border-color 0.3s ease;
+    will-change: transform;
+    -webkit-touch-callout: none;
+    user-select: none;
+    filter: grayscale(1) brightness(0.7);
+    /* Grayscale by default */
+    border-color: rgba(255, 255, 255, 0.05);
+    z-index: 1;
+}
+
+.video-item.active,
+.video-item:hover {
+    filter: grayscale(0) brightness(1);
+    /* Color on active/hover */
+    transform: scale(1.1);
+    z-index: 50;
+    border-color: #ff3366;
+}
+
+/* Projetos Hover */
+.project-card .project-img {
+    transition: transform 0.7s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.project-card:hover .project-img {
+    transform: scale(1.05);
+}
+
+.project-card .project-overlay {
+    background: transparent;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.project-card:hover .project-overlay {
+    opacity: 1;
+}
+
+.project-title-wrap {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s ease 0.1s;
+}
+
+.project-card:hover .project-title-wrap {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Texto Outlined (Vazado) */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(244, 244, 245, 0.3);
+    transition: all 0.3s ease;
+}
+
+.text-outline:hover {
+    color: #f4f4f5;
+    -webkit-text-stroke: 1px transparent;
+}
+
+/* Desativa cursor customizado em touch */
+@media (max-width: 768px) {
+    body {
+        cursor: auto;
+    }
+
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #0a0a0a;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.mobile-menu-link {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #f4f4f5;
+    margin: 1rem 0;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.mobile-menu-overlay.active .mobile-menu-link {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Staggered animation delays for menu items */
+.mobile-menu-overlay.active .mobile-menu-link:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.mobile-menu-overlay.active .mobile-menu-link:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.mobile-menu-overlay.active .mobile-menu-link:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+/* Hamburger Button */
+.hamburger {
+    width: 30px;
+    height: 20px;
+    position: relative;
+    z-index: 50;
+    cursor: pointer;
+    display: none;
+    /* Hidden on desktop */
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #f4f4f5;
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.hamburger span:first-child {
+    top: 0;
+}
+
+.hamburger span:nth-child(2) {
+    top: 9px;
+}
+
+.hamburger span:last-child {
+    bottom: 0;
+}
+
+.hamburger.active span:first-child {
+    top: 9px;
+    transform: rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:last-child {
+    bottom: 9px;
+    transform: rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    /* Hide desktop menu */
+    nav .desktop-menu {
+        display: none;
+    }
+}
+
+/* Scrolldown animation */
+@keyframes scrolldown {
+    0% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+
+    50.1% {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}

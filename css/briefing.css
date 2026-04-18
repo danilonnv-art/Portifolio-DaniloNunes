@@ -1,0 +1,170 @@
+body {
+    background-color: #0a0a0a;
+    color: #f4f4f5;
+    cursor: none;
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+/* Cursor Customizado */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff3366;
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 51, 102, 0.5);
+    transition: width 0.15s, height 0.15s, border-color 0.15s;
+}
+
+body.hovering .cursor-dot {
+    width: 0px;
+    height: 0px;
+}
+
+body.hovering .cursor-outline {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 51, 102, 0.1);
+    border-color: #ff3366;
+    backdrop-filter: blur(2px);
+}
+
+/* Noise Textura */
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.04;
+    background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+/* Form Animations */
+.step-container {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.step-container.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.step-container.hidden {
+    display: none !important;
+}
+
+input,
+textarea,
+select {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 51, 102, 0.3);
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: #ff3366;
+    width: 100%;
+    padding: 10px 0;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-bottom-color: #ff3366;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+textarea {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    line-height: 1.5;
+}
+
+/* Hide scrollbar for textarea */
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
+/* Progress Bar */
+.progress-bar-bg {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 100;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: #ff3366;
+    width: 0%;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px #ff3366;
+}
+
+.option-btn {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+    cursor: none;
+}
+
+.option-btn:hover,
+.option-btn.selected {
+    border-color: #ff3366;
+    background: rgba(255, 51, 102, 0.1);
+    color: #ff3366;
+    transform: translateX(10px);
+}
+
+.option-btn.selected {
+    background: #ff3366;
+    color: white;
+}
+
+/* Navigation Buttons */
+.nav-fixed {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 50;
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .nav-fixed {
+        bottom: 20px;
+        right: 20px;
+    }
+}
